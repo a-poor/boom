@@ -27,8 +27,11 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
-      "targets": "all"
+      "identifier": "com.austinpoor.boom",
+      "targets": "all",
+      "macOS": {
+        "entitlements": "./Info.plist"
+      }
     },
     "security": {
       "csp": null

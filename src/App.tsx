@@ -1,51 +1,53 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/tauri";
-import "./App.css";
+import { useState, useRef, useEffect } from "react";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
-  }
-
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const startCapture = () => {
+    console.log("Starting capture...");
+    const video = videoRef.current;
+    if (!video) return;
+    const constraints = {
+      video: { 
+        mediaSource: "screen",
+      },
+      audio: false,
+    };
+    console.log("Using constraints", constraints);
+    navigator.mediaDevices.getDisplayMedia({video: true, audio: false})
+      .then(s => {
+        video.srcObject = s;
+        console.log("Video source set.");
+      })
+      .catch(err => console.error(err));
+  };
+  const stopCapture = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    (video.srcObject as MediaStream)?.getTracks().forEach(track => track.stop());
+    video.srcObject = null;
+  };
   return (
-    <div className="container">
-      <h1>Welcome to Tauri!</h1>
-
-      <div className="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container" style={{
+      display: "flex",
+      flexDirection: "column",
+    }}>
+      <video 
+        ref={videoRef}
+        autoPlay
+        width={1920/4}
+        height={1080/4}
+        style={{
+          border: "1px solid black",
+        }}
+      />
+      <div style={{display: "flex"}}>
+        <button onClick={startCapture}>
+          Start
+        </button>
+        <button onClick={stopCapture}>
+          Stop
+        </button>
       </div>
-
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <div className="row">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            greet();
-          }}
-        >
-          <input
-            id="greet-input"
-            onChange={(e) => setName(e.currentTarget.value)}
-            placeholder="Enter a name..."
-          />
-          <button type="submit">Greet</button>
-        </form>
-      </div>
-      <p>{greetMsg}</p>
     </div>
   );
 }
