@@ -28,10 +28,7 @@
         "icons/icon.ico"
       ],
       "identifier": "com.austinpoor.boom",
-      "targets": "all",
-      "macOS": {
-        "entitlements": "./Info.plist"
-      }
+      "targets": "all"
     },
     "security": {
       "csp": null
@@ -42,10 +39,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "resizable": true,
+        "resizable": false,
         "title": "boom",
-        "width": 800,
-        "height": 600
+        "width": 450,
+        "height": 700
       }
     ]
   }
