@@ -4,14 +4,14 @@
     ScreenOnly = "screen-only",
     CamOnly = "cam-only",
   }
-  const commonRecordTabClasses = "flex flex-col items-center justify-center w-full h-16 border border-neutral-300 text-sm";
-  const activeRecordTab = commonRecordTabClasses + " bg-neutral-50 text-blue-500";
-  const inactiveRecordTab = commonRecordTabClasses + " bg-neutral-200 text-neutral-700";
+  const commonRecordTabClasses = "flex flex-col items-center justify-center w-full h-16 text-sm";
+  const activeRecordTab = commonRecordTabClasses + " text-blue-500 outline-solid border-b-2 border-blue-500";
+  const inactiveRecordTab = commonRecordTabClasses + " text-neutral-500 border-b-2 border-transparent";
   
   let recordType: RecordType = RecordType.ScreenAndCam;
 </script>
 
-<main class="bg-neutral-50"> 
+<main class=""> 
   <div class="flex mx-2 my-2">
     <div class="text-xl font-medium">
       Boom
